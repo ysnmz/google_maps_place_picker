@@ -29,7 +29,7 @@ class PickResult {
 
   final String placeId;
   final Geometry geometry;
-  final String formattedAddress;
+  String formattedAddress;
   final List<String> types;
   final List<AddressComponent> addressComponents;
 

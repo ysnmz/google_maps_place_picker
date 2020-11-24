@@ -144,7 +144,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
         selector: (_, provider) => provider.mapType,
         builder: (_, data, __) {
           PlaceProvider provider = PlaceProvider.of(context, listen: false);
-          CameraPosition initialCameraPosition = CameraPosition(target: initialTarget, zoom: 15);
+          CameraPosition initialCameraPosition = CameraPosition(target: initialTarget, zoom: 18);
 
           return GoogleMap(
             myLocationButtonEnabled: false,
@@ -324,29 +324,90 @@ class GoogleMapPlacePicker extends StatelessWidget {
       ),
     );
   }
-
+  _showMaterialDialog(context) {
+    showDialog(
+        builder: (_) => new AlertDialog(
+          title: new Text("Material Dialog"),
+          content: new Text("Hey! I'm Coflutter!"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Close me!'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        ));
+  }
   Widget _buildSelectionDetails(BuildContext context, PickResult result) {
     return Container(
       margin: EdgeInsets.all(10),
       child: Column(
         children: <Widget>[
-          Text(
-            result.formattedAddress,
-            style: TextStyle(fontSize: 18),
-            textAlign: TextAlign.center,
+          TextFormField(
+            initialValue: result.formattedAddress,
+            onChanged: (newText) { result.formattedAddress = newText;
+            print(result.formattedAddress);
+            },
+            maxLines: null,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Adres giriniz',
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Adres giriniz';
+              }
+              return null;
+            },
           ),
+
           SizedBox(height: 10),
           RaisedButton(
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: Text(
-              "Select here",
+              "Adresi Seç",
               style: TextStyle(fontSize: 16),
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4.0),
             ),
             onPressed: () {
-              onPlacePicked(result);
+              if(result.formattedAddress.isNotEmpty){
+              return showDialog<void>(
+                context: context,
+                barrierDismissible: false, // user must tap button!
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Onaylıyor musunuz?'),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: <Widget>[
+                          Text(result.formattedAddress),
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Değiştir'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text('Kaydet'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          onPlacePicked(result);
+                        },
+                      ),
+
+                    ],
+                  );
+                },
+              );
+}
+
             },
           ),
         ],
