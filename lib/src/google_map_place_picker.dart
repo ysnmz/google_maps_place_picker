@@ -471,7 +471,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
                       content: SingleChildScrollView(
                         child: ListBody(
                           children: <Widget>[
-                            Text(result.adres + " Bina no: "+ result.bina + " Daire no: " + result.daire),
+                            Text(result.adres + " Bina No: "+ result.bina + " Daire No: " + result.daire),
                           ],
                         ),
                       ),
