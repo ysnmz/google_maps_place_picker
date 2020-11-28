@@ -15,7 +15,6 @@ import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 typedef SelectedPlaceWidgetBuilder = Widget Function(
   BuildContext context,
@@ -355,8 +354,12 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
 
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusColor: Colors.grey,
+                    labelStyle: TextStyle(color: Color(0xFF828282)),
+                    contentPadding: EdgeInsets.all(12),
+                    hintStyle: TextStyle(color: Color(0xFF828282)),
+                    border:OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF828282))),
+                    focusedBorder:OutlineInputBorder(borderSide: BorderSide(color: Color(0xFFffc800))),
+                    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF828282))),
                     labelText: 'Başlık',
                     hintText: 'Ev, İşyeri',
                   ),
@@ -370,8 +373,12 @@ class GoogleMapPlacePicker extends StatelessWidget {
                   initialValue: result.addressComponents[0].longName,
 
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusColor: Colors.grey,
+                    labelStyle: TextStyle(color: Color(0xFF828282)),
+                    contentPadding: EdgeInsets.all(12),
+                    hintStyle: TextStyle(color: Color(0xFF828282)),
+                    border:OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF828282))),
+                    focusedBorder:OutlineInputBorder(borderSide: BorderSide(color: Color(0xFFffc800))),
+                    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF828282))),
                     labelText: 'Bina No',
 
                   ),
@@ -385,7 +392,12 @@ class GoogleMapPlacePicker extends StatelessWidget {
                   },
                   decoration: const InputDecoration(
                     labelText: 'Daire No',
-                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(color: Color(0xFF828282)),
+                    contentPadding: EdgeInsets.all(12),
+                    hintStyle: TextStyle(color: Color(0xFF828282)),
+                    border:OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF828282))),
+                    focusedBorder:OutlineInputBorder(borderSide: BorderSide(color: Color(0xFFffc800))),
+                    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF828282))),
 
                   ),
                 ),
@@ -402,7 +414,12 @@ class GoogleMapPlacePicker extends StatelessWidget {
             maxLines: null,
             decoration: const InputDecoration(
               labelText: 'Adres',
-              border: OutlineInputBorder(),
+              labelStyle: TextStyle(color: Color(0xFF828282)),
+              contentPadding: EdgeInsets.all(12),
+              hintStyle: TextStyle(color: Color(0xFF828282)),
+              border:OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF828282))),
+              focusedBorder:OutlineInputBorder(borderSide: BorderSide(color: Color(0xFFffc800))),
+              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF828282))),
               hintText: 'Adres giriniz',
             ),
             validator: (value) {
@@ -424,32 +441,18 @@ class GoogleMapPlacePicker extends StatelessWidget {
               borderRadius: BorderRadius.circular(4.0),
             ),
             onPressed: () {
-              if(result.adres.isNotEmpty && result.bina.isNotEmpty && result.daire.isNotEmpty){
+              if(result.adres == null || result.bina == null  || result.daire == null){
               return showDialog<void>(
                 context: context,
                 barrierDismissible: false, // user must tap button!
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('Onaylıyor musunuz?'),
-                    content: SingleChildScrollView(
-                      child: ListBody(
-                        children: <Widget>[
-                          Text(result.addressComponents[1].longName.toString()),
-                        ],
-                      ),
-                    ),
+                    title: Text('Tüm alanları doldurunuz.'),
                     actions: <Widget>[
                       TextButton(
-                        child: Text('Değiştir'),
+                        child: Text('Tamam'),
                         onPressed: () {
                           Navigator.of(context).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: Text('Kaydet'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          onPlacePicked(result);
                         },
                       ),
 
@@ -459,15 +462,41 @@ class GoogleMapPlacePicker extends StatelessWidget {
               );
 }
               else{
-                Fluttertoast.showToast(
-                    msg: "This is Center Short Toast",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.red,
-                    textColor: Colors.white,
-                    fontSize: 16.0
+                return showDialog<void>(
+                  context: context,
+                  barrierDismissible: false, // user must tap button!
+                  builder: (BuildContext context) {
+                    return                 AlertDialog(
+                      title: Text('Onaylıyor musunuz?'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: <Widget>[
+                            Text(result.adres + " Bina no: "+ result.bina + " Daire no: " + result.daire),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text('Değiştir'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text('Kaydet'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            onPlacePicked(result);
+                          },
+                        ),
+
+                      ],
+                    );
+                  },
                 );
+
+
+
               }
 
             },
