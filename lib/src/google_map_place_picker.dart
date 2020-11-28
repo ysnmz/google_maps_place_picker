@@ -15,6 +15,7 @@ import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 typedef SelectedPlaceWidgetBuilder = Widget Function(
   BuildContext context,
@@ -301,7 +302,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
 
   Widget _defaultPlaceWidgetBuilder(BuildContext context, PickResult data, SearchingState state) {
     return FloatingCard(
-      bottomPosition: MediaQuery.of(context).size.height * 0.05,
+      bottomPosition: MediaQuery.of(context).size.height * 0.01,
       leftPosition: MediaQuery.of(context).size.width * 0.025,
       rightPosition: MediaQuery.of(context).size.width * 0.025,
       width: MediaQuery.of(context).size.width * 0.9,
@@ -349,13 +350,30 @@ class GoogleMapPlacePicker extends StatelessWidget {
             children: <Widget>[
               new Flexible(
                 child: new TextFormField(
+                  onChanged: (newText) { result.title = newText;
+                  },
+
+
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    focusColor: Colors.grey,
+                    labelText: 'Başlık',
+                    hintText: 'Ev, İşyeri',
+                  ),
+                ),
+              ),
+              SizedBox(width: 10.0,),
+              new Flexible(
+                child: new TextFormField(
+                  onChanged: (newText) { result.bina = newText;
+                  },
                   initialValue: result.addressComponents[0].longName,
 
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     focusColor: Colors.grey,
                     labelText: 'Bina No',
-                    hintText: 'Bina No',
+
                   ),
                 ),
               ),
@@ -363,10 +381,12 @@ class GoogleMapPlacePicker extends StatelessWidget {
               new Flexible(
 
                 child: new TextFormField(
+                  onChanged: (newText) { result.daire = newText;
+                  },
                   decoration: const InputDecoration(
                     labelText: 'Daire No',
                     border: OutlineInputBorder(),
-                    hintText: 'Daire No',
+
                   ),
                 ),
               ),
@@ -376,8 +396,8 @@ class GoogleMapPlacePicker extends StatelessWidget {
           height: 10.0,),
           TextFormField(
             initialValue: result.addressComponents[1].longName +", " + result.addressComponents[2].longName,
-            onChanged: (newText) { result.formattedAddress = newText;
-            print(result.formattedAddress);
+            onChanged: (newText) { result.adres = newText;
+            print(result.adres);
             },
             maxLines: null,
             decoration: const InputDecoration(
@@ -404,7 +424,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
               borderRadius: BorderRadius.circular(4.0),
             ),
             onPressed: () {
-              if(result.formattedAddress.isNotEmpty){
+              if(result.adres.isNotEmpty && result.bina.isNotEmpty && result.daire.isNotEmpty){
               return showDialog<void>(
                 context: context,
                 barrierDismissible: false, // user must tap button!
@@ -438,6 +458,17 @@ class GoogleMapPlacePicker extends StatelessWidget {
                 },
               );
 }
+              else{
+                Fluttertoast.showToast(
+                    msg: "This is Center Short Toast",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0
+                );
+              }
 
             },
           ),

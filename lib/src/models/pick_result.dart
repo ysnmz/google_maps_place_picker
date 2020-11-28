@@ -6,6 +6,10 @@ class PickResult {
     this.placeId,
     this.geometry,
     this.formattedAddress,
+    this.title,
+    this.bina,
+    this.daire,
+    this.adres,
     this.types,
     this.addressComponents,
     this.adrAddress,
@@ -30,6 +34,10 @@ class PickResult {
   final String placeId;
   final Geometry geometry;
   String formattedAddress;
+  String title;
+  String bina;
+  String daire;
+  String adres;
   final List<String> types;
   final List<AddressComponent> addressComponents;
 
@@ -59,6 +67,8 @@ class PickResult {
       formattedAddress: result.formattedAddress,
       types: result.types,
       addressComponents: result.addressComponents,
+      bina: result.addressComponents[0].longName,
+      adres: result.addressComponents[1].longName +", " + result.addressComponents[2].longName
     );
   }
 
