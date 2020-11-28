@@ -344,13 +344,44 @@ class GoogleMapPlacePicker extends StatelessWidget {
       margin: EdgeInsets.all(10),
       child: Column(
         children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              new Flexible(
+                child: new TextFormField(
+                  initialValue: result.addressComponents[0].longName,
+
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    focusColor: Colors.grey,
+                    labelText: 'Bina No',
+                    hintText: 'Bina No',
+                  ),
+                ),
+              ),
+              SizedBox(width: 10.0,),
+              new Flexible(
+
+                child: new TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Daire No',
+                    border: OutlineInputBorder(),
+                    hintText: 'Daire No',
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(width: 10.0,
+          height: 10.0,),
           TextFormField(
-            initialValue: result.formattedAddress,
+            initialValue: result.addressComponents[1].longName +", " + result.addressComponents[2].longName,
             onChanged: (newText) { result.formattedAddress = newText;
             print(result.formattedAddress);
             },
             maxLines: null,
             decoration: const InputDecoration(
+              labelText: 'Adres',
               border: OutlineInputBorder(),
               hintText: 'Adres giriniz',
             ),
@@ -383,7 +414,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
                     content: SingleChildScrollView(
                       child: ListBody(
                         children: <Widget>[
-                          Text(result.formattedAddress),
+                          Text(result.addressComponents[1].longName.toString()),
                         ],
                       ),
                     ),
