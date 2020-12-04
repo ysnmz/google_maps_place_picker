@@ -441,7 +441,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
               borderRadius: BorderRadius.circular(4.0),
             ),
             onPressed: () {
-              if(result.adres == null || result.bina == null  || result.daire == null){
+              if(result.title == null || result.adres == null || result.bina == null  || result.daire == null){
               return showDialog<void>(
                 context: context,
                 barrierDismissible: false, // user must tap button!
