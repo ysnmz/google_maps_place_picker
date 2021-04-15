@@ -429,6 +429,31 @@ class GoogleMapPlacePicker extends StatelessWidget {
               return null;
             },
           ),
+          SizedBox(width: 10.0,
+            height: 10.0,),
+          TextFormField(
+            //initialValue: result.addressComponents[1].longName +", " + result.addressComponents[2].longName,
+            onChanged: (newText) { result.tarif = newText;
+            print(result.tarif);
+            },
+            maxLines: null,
+            decoration: const InputDecoration(
+              labelText: 'Adres Tarifi',
+              labelStyle: TextStyle(color: Color(0xFF828282)),
+              contentPadding: EdgeInsets.all(12),
+              hintStyle: TextStyle(color: Color(0xFF828282)),
+              border:OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF828282))),
+              focusedBorder:OutlineInputBorder(borderSide: BorderSide(color: Color(0xFFffc800))),
+              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF828282))),
+              hintText: 'Adres tarifi giriniz',
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Adres tarifi giriniz';
+              }
+              return null;
+            },
+          ),
 
           SizedBox(height: 10),
           RaisedButton(
