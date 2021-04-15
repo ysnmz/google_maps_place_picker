@@ -10,6 +10,7 @@ class PickResult {
     this.bina,
     this.daire,
     this.adres,
+    this.tarif,
     this.types,
     this.addressComponents,
     this.adrAddress,
@@ -38,6 +39,7 @@ class PickResult {
   String bina;
   String daire;
   String adres;
+  String tarif;
   final List<String> types;
   final List<AddressComponent> addressComponents;
 
